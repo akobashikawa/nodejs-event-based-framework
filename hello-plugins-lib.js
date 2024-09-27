@@ -26,7 +26,7 @@ const uppercase = new UppercasePlugin({
         // Conditional chaining
         'UppercasePlugin.done': (msg) => {
             if (msg.message.greeting.includes("HELLO")) {
-                console.log("Finalizado: " + msg.message.greeting);
+                console.log("Finished: " + msg.message.greeting);
             }
         },
     }

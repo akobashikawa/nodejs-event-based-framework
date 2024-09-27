@@ -7,7 +7,7 @@ class Plugin {
         this.cname = this.constructor.name;
     }
 
-    // Emitir un evento estándar
+    // Emit standard event
     done(newMessage) {
         eventEmitter.emit(`${this.cname}.done`, { message: newMessage });
     }
@@ -19,9 +19,9 @@ class HelloPlugin extends Plugin {
     }
 
     main(msg) {
-        const newMessage = { greeting: msg.greeting }; // Tomamos msg.greeting
+        const newMessage = { greeting: msg.greeting }; // Take the message
         console.log(`${this.cname}: ${newMessage.greeting}`);
-        this.done(newMessage); // Emitimos el nuevo mensaje
+        this.done(newMessage); // Emit the new message
     }
 }
 
@@ -31,10 +31,9 @@ class HelloWorldPlugin extends Plugin {
     }
 
     main(msg) {
-        // Aseguramos que msg.message.greeting está definido
-        const newMessage = { greeting: `${msg.message.greeting} World!` };
+        const newMessage = { greeting: `${msg.message.greeting} World!` }; // Take the message
         console.log(`${this.cname}: ${newMessage.greeting}`);
-        this.done(newMessage); // Emitimos el nuevo mensaje
+        this.done(newMessage); // Emit the new message
     }
 }
 
@@ -44,27 +43,26 @@ class UppercasePlugin extends Plugin {
     }
 
     main(msg) {
-        // Aseguramos que msg.message.greeting está definido
-        const newMessage = { greeting: msg.message.greeting.toUpperCase() };
+        const newMessage = { greeting: msg.message.greeting.toUpperCase() }; // Take the message
         console.log(`${this.cname}: ${newMessage.greeting}`);
-        this.done(newMessage); // Avisa que terminó
+        this.done(newMessage); // Emit the new message
     }
 }
 
-// Instanciamos los plugins
+// Instantiate the plugins
 const hello = new HelloPlugin();
 const helloWorld = new HelloWorldPlugin();
 const uppercase = new UppercasePlugin();
 
-// Defino el encadenamiento
+// Define the chains
 eventEmitter.on('HelloPlugin', (msg) => hello.main(msg));
 eventEmitter.on('HelloPlugin.done', (msg) => helloWorld.main(msg));
 eventEmitter.on('HelloWorldPlugin.done', (msg) => uppercase.main(msg));
 
-// Encadenamiento condicional
+// Conditional chaining
 eventEmitter.on('UppercasePlugin.done', (msg) => {
     if (msg.message.greeting.includes("HELLO")) {
-        console.log("Finalizado: " + msg.message.greeting);
+        console.log("Finished: " + msg.message.greeting);
     }
 });
 
