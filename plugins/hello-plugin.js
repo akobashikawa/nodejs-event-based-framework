@@ -6,6 +6,7 @@ class HelloPlugin extends Plugin {
     }
 
     main(msg) {
+        this.start(msg);
         const newMessage = { greeting: msg.greeting }; // Take the message
         console.log(`${this.cname}: ${newMessage.greeting}`);
         this.done(newMessage); // Emit the new message

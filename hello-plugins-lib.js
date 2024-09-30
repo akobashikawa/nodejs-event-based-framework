@@ -6,34 +6,37 @@ const HelloPlugin = require('./plugins/hello-plugin');
 const HelloWorldPlugin = require('./plugins/helloworld-plugin');
 const UppercasePlugin = require('./plugins/uppercase-plugin');
 
-// Instantiate the plugins and define the chains
+// Instantiate the plugins and define the chain
 const hello = new HelloPlugin({
     eventEmitter,
     events: {
-        'HelloPlugin': (msg) => hello.main(msg),
+        'main.start': (msg = { greeting: 'Hello' }) => hello.main(msg),
     },
 });
+
 const helloWorld = new HelloWorldPlugin({
     eventEmitter,
     events: {
         'HelloPlugin.done': (msg) => helloWorld.main(msg),
     },
 });
+
 const uppercase = new UppercasePlugin({
     eventEmitter,
     events: {
         'HelloWorldPlugin.done': (msg) => uppercase.main(msg),
         // Conditional chaining
         'UppercasePlugin.done': (msg) => {
-            if (msg.message.greeting.includes("HELLO")) {
-                console.log("Finished: " + msg.message.greeting);
+            const greeting = msg.greeting;
+            if (greeting.includes("HELLO")) {
+                console.log("Finished: " + greeting);
             }
         },
     }
 });
 
 function main() {
-    eventEmitter.emit('HelloPlugin', { greeting: 'Hello' });
+    eventEmitter.emit('main.start');
 }
 
 main();

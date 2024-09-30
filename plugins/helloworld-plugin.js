@@ -8,7 +8,7 @@ class HelloWorldPlugin extends Plugin {
     // Specific validation for this plugin
     validateMsg(msg) {
         super.validateMsg(msg); // Calls for general validation
-        if (!msg.message.greeting) {
+        if (!msg.greeting) {
             throw new Error("The message does not have the expected format."); // Throws an error if greeting is not present
         }
     }
@@ -16,7 +16,7 @@ class HelloWorldPlugin extends Plugin {
     main(msg) {
         try {
             this.validateMsg(msg); // Validate the received message
-            const newMessage = { greeting: `${msg.message.greeting} World!` }; // Take the message
+            const newMessage = { greeting: `${msg.greeting} World!` }; // Take the message
             console.log(`${this.cname}: ${newMessage.greeting}`);
             this.done(newMessage); // Emit the new message
         } catch (error) {

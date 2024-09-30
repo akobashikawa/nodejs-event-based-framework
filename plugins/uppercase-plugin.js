@@ -7,7 +7,7 @@ class UppercasePlugin extends Plugin {
 
     validateMsg(msg) {
         super.validateMsg(msg);
-        if (!msg.message.greeting) {
+        if (!msg.greeting) {
             throw new Error("The message does not have the expected format.");
         }
     }
@@ -15,7 +15,7 @@ class UppercasePlugin extends Plugin {
     main(msg) {
         try {
             this.validateMsg(msg); // Validate the received message
-            const newMessage = { greeting: msg.message.greeting.toUpperCase() }; // Take the message
+            const newMessage = { greeting: msg.greeting.toUpperCase() }; // Take the message
             console.log(`${this.cname}: ${newMessage.greeting}`);
             this.done(newMessage); // Emit the new message
         } catch (error) {
